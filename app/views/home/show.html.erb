@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+ <h1 class="display-5 fw-bold">
+    <%= @user.name %>
+    <%= @user.email %>
+    <%= @user.role %>
+  </h1>
+  
+  <br />
+
+<%= link_to 'Edit', edit_home_path(@user) %> |
+<%= link_to 'Back', home_index_path %>

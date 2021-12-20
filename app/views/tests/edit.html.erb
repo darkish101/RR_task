@@ -1,0 +1,16 @@
+<h1>Editing Test</h1>
+<%# <%= current_user.inspect% > %>
+<%# <%= @ansers.inspect % > %>
+<%= link_to 'Show', @test, updateparams: @updateparams%> |
+<%= link_to 'Back', tests_path %>
+<%= render 'update_form', test: @test, updateparams: @updateparams %>
+<hr />
+
+
+
+
+
+
+<%# <%= render 'question_form', test: @test, question: @question, anser: @ansers  %            > %>
+<%# <%= render 'question_form', question: @question  % > %>
+

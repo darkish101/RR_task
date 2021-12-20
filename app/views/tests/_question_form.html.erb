@@ -1,0 +1,47 @@
+<%# <%= form_with method: :create_question do |form| % > %>
+<%= form_with(model: test) do |form| %>
+
+
+<%# <%= form_with(model: question), method: :create_question do |form| % > %>
+
+
+
+
+ 
+  <div class="field">
+    <%= form.label :question %>
+    <%= form.text_field :question %>
+  </div>
+
+  <div class="actions">
+    <%# <%= form.submit % > %>
+
+    <%# <%= link_to 'Destroy', edit_test_path(test.id), method: :create_question % > %>
+
+    <%= submit_tag 'Add question', name: 'add_question' %>
+
+  </div>
+<hr />
+<%# <%= form.number_field :test_id, id: :test_test_id, value: test.id % > %>
+<%= form.number_field :test_id, id: :test_id, value: @test.id, type: :hidden%>
+
+
+  <% end %>
+    <% @questions.each do |question| %>
+
+      <table>
+        <thead>
+          <tr>
+            <th>question</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td><%= question.question %></td>
+            </tr>
+        </tbody>
+      </table>
+
+      <%= render 'anser_form', test: @test, question: question, anser: @ansers  %>
+      <hr />
+<% end %>

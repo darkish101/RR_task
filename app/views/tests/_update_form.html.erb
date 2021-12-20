@@ -1,0 +1,161 @@
+<%= form_with(model: test) do |form| %>
+  <%# <% if test.errors.any? % >
+    <div id="error_explanation">
+      <h2><%= pluralize(test.errors.count, "error") % > prohibited this test from being saved:</h2>
+
+      <ul>
+        <% test.errors.each do |error| % >
+          <li><%= error.full_message % ></li>
+        <% end % >
+      </ul>
+    </div>
+  <% end % > %>
+   <div id="btn_add_question" class="pull-right " style="margin-right: 5%; border-radius: 50%;">
+        + question
+      </div>
+  <%= @pdateparams %>
+    <%= form.number_field :user_id, id: :test_user_id, value: current_user.id, type: :hidden %>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <%# <div class="field">
+    <%= form.label :questions % >
+    <%= form.text_field :questions % >
+  </div> %>
+
+
+
+
+
+     
+    <div class="row question_group">
+            <div id="question_1" class="row">
+                <div class="col-xs-12">
+                    
+
+                    <div class="box">
+                    <div class="field">
+                        <%# <%= form.label "test_question_1", class: "question-label" % > %>
+                        <%# <%= form.text_field "test_question_1", name: "test[question_1]", class: "question-field", placeholder: "question"  % > %>
+                        <%= form.text_field :question, name: "test[question_1]", class: "question-field", placeholder: "question"  %>
+                    </div>
+
+                        <div id="q_1-anser_1" class="anser">
+                            <div class="field">
+                                <%# <%= form.label "test_question_1_anser", class: "anser-lable" % > %>
+                                <%= form.text_field :anser, name: "test[question_1_anser_1]", class: "anser-field", placeholder: "anser"  %>
+                                <%# <%= form.text_field "test_question_1_anser_1", name: "test[question_1_anser_1]", class: "anser-field", placeholder: "anser"  % > %>
+                            </div>
+
+                        </div>
+                            <div class="btn_add_anser " style="margin-right: 5%; border-radius: 50%;">
+                                + anser
+                            </div>
+
+                    </div>
+                </div>
+            <hr />
+    </div>
+</div>
+
+
+<% end %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script> 
+
+$('#btn_add_question').click(function(){
+  // get the last DIV which ID starts with ^= "question_"
+  console.log($(this).parent().find(".question_group"))
+  var $div = $(this).parent().find(".question_group").closest('.row').find( $('div[id^="question_"]:last'));
+  console.log($div)
+  // Read the Number from that div's id 
+  // And increment that number by 1
+  var increment_id = parseInt( $div.prop("id").match(/\d+/g) ) +1;
+
+  // Clone question and assign new ID 
+  $div.after($(this).parent().find(".question_group").children().closest('.row').clone().prop('id', 'question_'+increment_id )
+  .find(".pull-right").remove().end()
+  .find(".removed").remove().end());
+// set anser id and name
+  $('#question_'+increment_id ).children().children()
+  .find('.anser').first()
+  .attr('id', 'q_'+ increment_id +"-anser_1");
+
+  $('#question_'+increment_id+' .question-field')
+  .attr('id', 'test_question_'+ increment_id  )
+  .attr('name', 'test[question_'+increment_id+']' );
+  
+  $('#question_'+increment_id+' .question-label')
+  .attr('for', 'test_question_'+ increment_id  );
+
+  $('#q_'+ increment_id +"-anser_1 .anser-field")
+  .attr('id', 'test_question_'+ increment_id +"_anser_1" )
+  .attr('name', 'test[[question_'+ increment_id +"][anser_1}]" );
+
+  $('#q_'+ increment_id +"-anser_1 .anser-lable")
+  .attr('for', 'test_question_'+ increment_id +"_anser_1" );
+
+ // remove other anser div if found
+ $('#question_'+increment_id ).children().children().find('.anser').each(function () {
+     if($(this).attr('id') != 'q_'+ increment_id +"-"+ $(this).attr('id').split('-')[1]){
+         $(this).remove();
+     }});
+});
+
+$(document).on('click', '.btn_add_anser', function () {
+// $('.btn_add_anser').click(function(){
+// add_anser();
+// });
+// function add_anser(){
+    console.log($(this).closest('.row').prop('id').split('_')[1])
+    // var parent_id = $(this).parent().parent().parent().parent().attr('id').split('_')[1];
+    var parent_id = $(this).closest('.row').prop('id').split('_')[1];
+// var parent_div = parent_id.children($('div[id^="q_'+parent_id+'-anser_"]:last'))
+  // get the last DIV which ID starts with ^= "klon"
+    // console.log(parent_id)
+    // console.log($(this).parent())
+  var $div = $('div[id^="q_'+parent_id+'-anser_"]:last');
+     console.log($div.prop("id").split('-')[1])
+  // Read the Number from that DIV's ID (i.e: 3 from "klon3")
+  // And increment that number by 1
+  var num = parseInt($div.prop("id").split('-')[1].match(/\d+/g)) +1;
+    console.log(num)
+  // Clone it and assign the new ID (i.e: from num 4 to ID "klon4")
+  var $klon = $div.clone().prop('id', 'q_'+parent_id+'-anser_'+num );
+
+  // Finally insert $klon wherever you want
+  console.log($klon.text('q_'+parent_id+'-anser_'+num).prop('id'))
+  $div.after( $(this).parent().find('.anser').first()
+  .closest('.anser').clone()
+  .attr('id', 'q_'+parent_id+'-anser_'+num ));
+  //set name to same question with new anser id
+  $('#q_'+parent_id+'-anser_'+num+ " .anser-field")
+  .attr('id', 'test_question_'+ parent_id +"_anser_"+num )
+  .attr('name', 'test[[question_'+ parent_id +"][anser_"+num+"]]" );
+  
+  $('#q_'+parent_id+'-anser_'+num+ " .anser-lable")
+  .attr('for', 'test_question_'+ parent_id +"_anser_"+num );
+  //.find(".btn_add_anser").remove().end().find(".removed").remove().end() 
+
+})
+
+
+// $("#btn_add_anser").on('click',function(e){
+//   e.preventDefault();//stop redirection
+//   var cont = $(this).closest('.anser').clone(); //clone the row
+//   //first remove button and then add it after initial row
+//   $(cont).find(".add-anser-btn").remove().end().insertAfter($(this).closest('.anser'));
+// });
+
+</script>

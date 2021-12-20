@@ -1,0 +1,31 @@
+<h1>Home#index</h1>
+<% if user_signed_in? && current_user.role == 'teacher' %>
+
+<%= link_to 'New User', new_home_path(User.new), class:"btn btn-secondary" %>
+
+<table class="table table-striped table-hover table-bordered">
+  <thead class="table-dark">
+      <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+    
+      <th colspan="3">Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.name, home_path(user) %></td>
+        <td><%= user.email %></td>
+        <td><%= user.role %></td>
+        <td><%= link_to 'Edit', edit_home_path(user) %></td>
+        <td><%= link_to 'Destroy', home_path(user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<% end %>

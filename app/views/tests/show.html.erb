@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+  <%= @pdateparams.inspect %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @test.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @test.description %>
+</p>
+
+<p>
+  <strong>Questions:</strong>
+  <%= @test.questions %>
+</p>
+
+<%= link_to 'Edit', edit_test_path(@test) %> |
+<%= link_to 'Back', tests_path %>

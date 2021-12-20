@@ -1,0 +1,44 @@
+<%# <%= form_with method: :create_question do |form| % > %>
+<%= form_with(model: test) do |form| %>
+  
+  <%# <%= question.id  % > %>
+
+  <%# <%= form_with(model: question), method: :create_question do |form| % > %>
+
+
+
+ 
+  <div class="field">
+    <%= form.label :anser %>
+    <%= form.text_field :anser %>
+  </div>
+
+
+  <%# <%= form.number_field :test_id, id: :test_test_id, value: test.id % > %>
+  <%= form.number_field :test_id, id: :test_id, value: @test.id, type: :hidden %>
+  <%= form.number_field :question, id: :question_id, value: question.id, type: :hidden %>
+
+  <div class="actions">
+    <%# <%= form.submit % > %>
+
+    <%# <%= link_to 'Destroy', edit_test_path(test.id), method: :create_question % > %>
+
+    <%= submit_tag 'Add anser', name: 'add_anser' %>
+  </div>
+<% end %>
+   <%# <% @ansers.each do |anser| % >
+
+      <table>
+        <thead>
+          <tr>
+            <th>anser</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td><%= anser.anser % ></td>
+            </tr>
+        </tbody>
+      </table>
+  <% end % > %>
+<%= @ansers.inspect %>
