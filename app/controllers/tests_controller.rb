@@ -22,15 +22,26 @@ class TestsController < ApplicationController
   
     @test = current_user.tests.build
     @question = Question.new
+    @anser = Anser.new
     #@question = @test.questions.build
   end
 
   # GET /tests/1/edit
   def edit
           @questions = Question.left_outer_joins(:test).where(test_id: @test.id).uniq
-          @ansers = Anser.all#left_outer_joins(:question)#.where(question_id:  Question.left_outer_joins(:test).where(test_id: @test.id).id).uniq
-  @updateparams ='hi from controller'
+          # @ansers = Anser.all#left_outer_joins(:question)#.where(question_id:  Question.left_outer_joins(:test).where(test_id: @test.id).id).uniq
+          @ansers = Anser.select("ansers.*")
+                         .joins("LEFT OUTER JOIN questions ON questions.id = ansers.question_id AND questions.test_id = " + @test.id)
+          
+          
+          
+          #left_outer_joins(:question)#.where(question_id:  Question.left_outer_joins(:test).where(test_id: @test.id).id).uniq
 
+          @resources = Resource.select("resources.*, COUNT(votes.id) vote_count")
+                     .joins("LEFT OUTER JOIN votes ON votes.votable_id = resources.id AND votes.votable_type = 'Resource'")
+                     .where(language_id: "ruby")
+                     .group("resources.id")
+                     .order("vote_count DESC")
   end
 
   # POST /tests or /tests.json
@@ -90,7 +101,7 @@ class TestsController < ApplicationController
   # # elsif 
     
   # # end
-    @pdateparams = debug(params)
+    @pdateparams = params[:test]
   # else
     #   respond_to do |format|
     #     if @test.update(test_params)# || @question.update(question_params) || @anser.update(anser_params)
